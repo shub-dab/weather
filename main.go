@@ -2,20 +2,21 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 	"strings"
 )
 
 type apiConfigData struct{
-	OpenWeatherMapApiKey string `json: "OpenWeatherMapApiKey`
+	OpenWeatherMapApiKey string `json:"OpenWeatherMapApiKey"`
 }
 
 type weatherData struct {
-	Name string `json: "name"`
+	Name string `json:"name"`
 	Main struct {
-		Kelvin float64 `json: "temp"`
-	} `json: "main"`
+		Kelvin float64 `json:"temp"`
+	} `json:"main"`
 }
 
 func loadApiConfig(filename string) (apiConfigData, error) {
@@ -55,6 +56,8 @@ func query(city string) (weatherData, error) {
 	if err := json.NewDecoder(resp.Body).Decode(&d); err != nil {
 		return weatherData{}, err
 	}
+
+	fmt.Println(d)
 
 	return d, nil
 }
